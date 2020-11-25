@@ -1,15 +1,19 @@
+"""Find someone by DNA"""
+
 from sys import argv
 import csv
 import collections
 
-def main():
 
-    if not len(argv) == 3:
+def main():
+    """Find someone by DNA"""
+
+    if len(argv) != 3:
         print("Usage: python dna.py data.csv sequence.txt")
         return
 
 
-    ''' LOAD DNA DATABASE AND SEQUENCE INTO MEMORY '''
+    # LOAD DNA DATABASE AND SEQUENCE INTO MEMORY
     print("### LOAD DNA DATABASE AND SEQUENCE INTO MEMORY\n")
 
     # dna database
@@ -30,7 +34,7 @@ def main():
     sequence_string = sequence_file.read()
     sequence_file.close()
 
-    ''' for each STR compute the longest run of reapeats (in that subjects sequence)'''
+    # for each STR compute the longest run of reapeats (in that subjects sequence)
     print("### for each STR compute the longest run of reapeats (in that subjects sequence)\n")
 
     subject = database[0][1:len(database[0])]
@@ -38,13 +42,13 @@ def main():
     print(subject)
 
     # for each dna STR
-    for i_STR in range(1, len(database[0])):
+    for index in range(1, len(database[0])):
 
         # cur STR pattern to look for
-        cur_STR = database[0][i_STR]
+        person = database[0][index]
 
         # print out cur STR
-        print(f"longest repeat {cur_STR}: ", end="")
+        print(f"longest repeat {person}: ", end="")
 
         longest_repeat = 0
 
@@ -53,16 +57,16 @@ def main():
 
             cur_repeats = 0
 
-            cur_i = i
+            index = i
             # repeat while cur STR matches
-            while sequence_string[cur_i:cur_i+len(cur_STR)] == cur_STR:
+            while sequence_string[index:index+len(person)] == person:
 
                 # cur_repeats ++
                 # print("found", end="")
                 cur_repeats += 1
 
                 # go to next STR
-                cur_i += len(cur_STR)
+                index += len(person)
 
             # if current repeats is larger than longest repeat
             if cur_repeats > longest_repeat:
@@ -70,12 +74,12 @@ def main():
                 longest_repeat = cur_repeats
 
         print(longest_repeat)
-        subject[i_STR - 1] = longest_repeat
+        subject[index - 1] = longest_repeat
 
     print(f"Subjects dna sequence: {subject}", end="\n\n")
 
 
-    ''' search through database for match with sequence '''
+    # search through database for match with sequence
     print("### search through database for match with sequence\n")
 
     # convert subject dna list to str list
@@ -96,8 +100,8 @@ def main():
 
         print(cur_person)
 
-    else: # if loop ends
-        print("\nNo match")
+        else: # if loop ends
+            print("\nNo match")
 
 
 
